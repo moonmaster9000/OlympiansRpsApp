@@ -1,30 +1,41 @@
 function Rps(){
-    const validShapes = ["rock", "paper", "scissors"]
-
-    function inputInvalid(p1, p2) {
-        return !validShapes.includes(p1) || !validShapes.includes(p2)
-    }
-
-    function draw(p1, p2) {
-        return p1 === p2
-    }
-
-    function p1Wins(p1, p2) {
-        return p1 === "rock" && p2 === "scissors" || p1 === "scissors" && p2 === "paper" || p1 === "paper" && p2 === "rock"
-    }
-
     this.play = function(p1, p2, observer){
-        if (inputInvalid(p1, p2))
+        new PlayRequest(p1, p2, observer).process()
+    }
+}
+
+function PlayRequest(p1, p2, observer){
+    this.process = function(){
+        if (inputInvalid())
             observer.invalid()
-        else if (draw(p1, p2))
+        else if (draw())
             observer.tie()
-        else if (p1Wins(p1, p2))
+        else if (p1Wins())
             observer.p1Wins()
         else
             observer.p2Wins()
     }
-}
 
+    const validShapes = ["rock", "paper", "scissors"]
+
+    function inputInvalid() {
+        return !validShapes.includes(p1) || !validShapes.includes(p2)
+    }
+
+    function draw() {
+        return p1 === p2
+    }
+
+    function p1Wins() {
+        return (
+            p1 === "rock"     && p2 === "scissors" ||
+            p1 === "scissors" && p2 === "paper"    ||
+            p1 === "paper"    && p2 === "rock"
+        )
+    }
+
+
+}
 describe("play", function () {
     let observerSpy, rps
 
