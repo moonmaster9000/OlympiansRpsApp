@@ -22,26 +22,47 @@ class PlayForm extends React.Component {
 
 describe("play form", function () {
     describe("the request processes as invalid", function () {
-        it("display 'INVALID' to the user", function () {
-            let domFixture = document.createElement("div")
-            domFixture.id = "hello!!!"
-            document.body.appendChild(domFixture)
-
-            let requests = {
+        beforeEach(function () {
+            let invalidRequestStub = {
                 play(p1, p2, observer){
                     observer.invalid()
                 }
             }
 
-            ReactDOM.render(
-                <PlayForm requests={requests}/>,
-                domFixture
-            )
+            renderForm(invalidRequestStub)
+        })
 
-            expect(domFixture.innerText).not.toContain("INVALID")
-            document.querySelector("button").click()
-            expect(domFixture.innerText).toContain("INVALID")
+        it("display 'INVALID' to the user", function () {
+            expect(page()).not.toContain("INVALID")
+            submitForm()
+            expect(page()).toContain("INVALID")
         })
     })
 
+    let domFixture
+
+    function setupDOM() {
+        domFixture = document.createElement("div")
+        domFixture.id = "hello!!!"
+        document.body.appendChild(domFixture)
+    }
+
+    beforeEach(function () {
+        setupDOM()
+    })
+
+    function renderForm(requests) {
+        ReactDOM.render(
+            <PlayForm requests={requests}/>,
+            domFixture
+        )
+    }
+
+    function page() {
+        return domFixture.innerText;
+    }
+
+    function submitForm() {
+        document.querySelector("button").click()
+    }
 })
