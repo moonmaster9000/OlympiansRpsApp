@@ -1,10 +1,24 @@
 function Rps(){
+    const validShapes = ["rock", "paper", "scissors"]
+
+    function inputInvalid(p1, p2) {
+        return !validShapes.includes(p1) || !validShapes.includes(p2)
+    }
+
+    function draw(p1, p2) {
+        return p1 === p2
+    }
+
+    function p1Wins(p1, p2) {
+        return p1 === "rock" && p2 === "scissors" || p1 === "scissors" && p2 === "paper" || p1 === "paper" && p2 === "rock"
+    }
+
     this.play = function(p1, p2, observer){
-        if (!["rock", "paper", "scissors"].includes(p1) || !["rock", "paper", "scissors"].includes(p2))
+        if (inputInvalid(p1, p2))
             observer.invalid()
-        else if (p1 === p2)
+        else if (draw(p1, p2))
             observer.tie()
-        else if (p1 === "rock" && p2 === "scissors" || p1 === "scissors" && p2 === "paper" || p1 === "paper" && p2 === "rock")
+        else if (p1Wins(p1, p2))
             observer.p1Wins()
         else
             observer.p2Wins()
