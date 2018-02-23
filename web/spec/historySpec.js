@@ -32,7 +32,7 @@ describe("history component", function () {
             renderComponent(<History requests={noRoundsStub}/>)
         })
 
-        it("display 'NO ROUNDS' to the user", function () {
+        it("display the round information to the user", function () {
             expect(page()).toContain("foo")
             expect(page()).toContain("bar")
             expect(page()).toContain("baz")
