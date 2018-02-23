@@ -1,27 +1,31 @@
-function Requests() {
-    this.playRound = function (p1Throw, p2Throw, observer, repo) {
-        new PlayRoundRequest(p1Throw, p2Throw, observer, repo).process()
+function Requests(roundRepo) {
+    this.playRound = function (p1Throw, p2Throw, observer) {
+        new PlayRoundRequest(p1Throw, p2Throw, observer, roundRepo).process()
     }
 
-    this.getHistory = function (observer, repo) {
-        if (repo.isEmpty())
+    this.getHistory = function (observer) {
+        if (roundRepo.isEmpty())
             observer.noRounds()
         else
-            observer.rounds(repo.getRounds())
+            observer.rounds(roundRepo.getRounds())
     }
 }
 
-function PlayRoundRequest(p1Throw, p2Throw, observer, repo) {
+function PlayRoundRequest(p1Throw, p2Throw, observer, roundRepo) {
     this.process = function () {
-        if (throwInvalid()) {
-            repo.save(new Round(p1Throw, p2Throw, "invalid"))
-            observer.invalid()
-        } else if (tie())
-            observer.tie()
+        if (throwInvalid())
+            processRoundAs("invalid")
+        else if (tie())
+            processRoundAs("tie")
         else if (p1Wins())
-            observer.p1Wins()
+            processRoundAs("p1Wins")
         else
-            observer.p2Wins()
+            processRoundAs("p2Wins")
+    }
+
+    function processRoundAs(outcome){
+        roundRepo.save(new Round(p1Throw, p2Throw, outcome))
+        observer[outcome]()
     }
 
     const validThrows = ["rock", "paper", "scissors"]
