@@ -97,30 +97,8 @@ describe("play form", function () {
     })
 
 
-    let domFixture
-
-    function setupDOM() {
-        domFixture = document.createElement("div")
-        document.body.appendChild(domFixture)
-    }
-
-    beforeEach(function () {
-        setupDOM()
-    })
-
-    afterEach(function () {
-        domFixture.remove()
-    })
-
     function renderForm(requests) {
-        ReactDOM.render(
-            <PlayForm requests={requests}/>,
-            domFixture
-        )
-    }
-
-    function page() {
-        return domFixture.innerText;
+        renderComponent(<PlayForm requests={requests}/>)
     }
 
     function submitForm() {

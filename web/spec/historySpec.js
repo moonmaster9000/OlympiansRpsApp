@@ -13,7 +13,7 @@ describe("history component", function () {
                 }
             }
 
-            renderComponent(noRoundsStub)
+            renderComponent(<History requests={noRoundsStub}/>)
         })
 
         it("display 'NO ROUNDS' to the user", function () {
@@ -29,7 +29,7 @@ describe("history component", function () {
                 }
             }
 
-            renderComponent(noRoundsStub)
+            renderComponent(<History requests={noRoundsStub}/>)
         })
 
         it("display 'NO ROUNDS' to the user", function () {
@@ -39,29 +39,4 @@ describe("history component", function () {
         })
     })
 
-    let domFixture
-
-    function setupDOM() {
-        domFixture = document.createElement("div")
-        document.body.appendChild(domFixture)
-    }
-
-    beforeEach(function () {
-        setupDOM()
-    })
-
-    afterEach(function () {
-        domFixture.remove()
-    })
-
-    function renderComponent(requests) {
-        ReactDOM.render(
-            <History requests={requests}/>,
-            domFixture
-        )
-    }
-
-    function page() {
-        return domFixture.innerText;
-    }
 })
