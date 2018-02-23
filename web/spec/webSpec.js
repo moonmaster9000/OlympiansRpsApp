@@ -10,7 +10,7 @@ class PlayForm extends React.Component {
     }
 
     submitForm(){
-        this.props.requests.play(this.state.p1Throw, this.state.p2Throw, this)
+        this.props.requests.playRound(this.state.p1Throw, this.state.p2Throw, this)
     }
     
     tie(){
@@ -47,7 +47,7 @@ describe("play form", function () {
     describe("the request processes as invalid", function () {
         beforeEach(function () {
             let invalidRequestStub = {
-                play(p1, p2, observer){
+                playRound(p1, p2, observer){
                     observer.invalid()
                 }
             }
@@ -65,7 +65,7 @@ describe("play form", function () {
     describe("the request processes as tie", function () {
         beforeEach(function () {
             let tieRequestStub = {
-                play(p1, p2, observer){
+                playRound(p1, p2, observer){
                     observer.tie()
                 }
             }
@@ -83,7 +83,7 @@ describe("play form", function () {
     describe("the request processes as p1Wins", function () {
         beforeEach(function () {
             let p1WinsRequestStub = {
-                play(p1, p2, observer){
+                playRound(p1, p2, observer){
                     observer.p1Wins()
                 }
             }
@@ -101,7 +101,7 @@ describe("play form", function () {
     describe("the request processes as p2Wins", function () {
         beforeEach(function () {
             let p2WinsRequestStub = {
-                play(p1, p2, observer){
+                playRound(p1, p2, observer){
                     observer.p2Wins()
                 }
             }
@@ -124,7 +124,8 @@ describe("play form", function () {
 
     it("sends the user's input to the play request", function () {
         let playRequestSpy = jasmine.createSpy("playRequestSpy")
-        renderForm({play: playRequestSpy})
+
+        renderForm({playRound: playRequestSpy})
 
         fillIn("p1Throw", "foo")
         fillIn("p2Throw", "bar")
