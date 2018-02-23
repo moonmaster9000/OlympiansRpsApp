@@ -1,5 +1,6 @@
 const ReactDOM = require("react-dom")
 const React = require("react")
+const ReactTestUtils = require("react-dom/test-utils")
 
 class PlayForm extends React.Component {
     constructor(){
@@ -31,6 +32,8 @@ class PlayForm extends React.Component {
     render(){
         return <div>
             {this.state.outcome}
+            <input name="p1Throw"/>
+            <input name="p2Throw"/>
             <button onClick={this.submitForm.bind(this)}>PLAY</button>
         </div>
     }
@@ -108,6 +111,25 @@ describe("play form", function () {
             expect(page()).toContain("P2 Won!")
         })
     })
+
+    it("sends the user's input to the play request", function () {
+        let playRequestSpy = jasmine.createSpy("playRequestSpy")
+
+        renderForm({play: playRequestSpy})
+
+        let input
+        input = document.querySelector("[name='p1Throw']")
+        input.value = "foo"
+        ReactTestUtils.Simulate.change(input)
+
+        input = document.querySelector("[name='p2Throw']")
+        input.value = "bar"
+        ReactTestUtils.Simulate.change(input)
+
+        submitForm()
+        expect(playRequestSpy).toHaveBeenCalledWith("foo", "bar", jasmine.any(Object))
+    })
+
 
     let domFixture
 
