@@ -10,7 +10,7 @@ class PlayForm extends React.Component {
     }
 
     submitForm(){
-        this.props.requests.play("p1 throw placeholder", "p2 throw placeholder", this)
+        this.props.requests.play(this.state.p1Throw, this.state.p2Throw, this)
     }
     
     tie(){
@@ -28,12 +28,20 @@ class PlayForm extends React.Component {
     p2Wins(){
         this.setState({outcome: "P2 Won!"})
     }
+    
+    p1ThrowChangeHandler(e){
+        this.setState({p1Throw: e.target.value})
+    }
+    
+    p2ThrowChangeHandler(e){
+        this.setState({p2Throw: e.target.value})
+    }
 
     render(){
         return <div>
             {this.state.outcome}
-            <input name="p1Throw"/>
-            <input name="p2Throw"/>
+            <input name="p1Throw" onChange={this.p1ThrowChangeHandler.bind(this)}/>
+            <input name="p2Throw" onChange={this.p2ThrowChangeHandler.bind(this)}/>
             <button onClick={this.submitForm.bind(this)}>PLAY</button>
         </div>
     }
