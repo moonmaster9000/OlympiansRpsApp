@@ -116,21 +116,21 @@ describe("play form", function () {
         })
     })
 
+    function fillIn(inputName, inputValue) {
+        let input = document.querySelector(`[name='${inputName}']`)
+        input.value = inputValue
+        ReactTestUtils.Simulate.change(input)
+    }
+
     it("sends the user's input to the play request", function () {
         let playRequestSpy = jasmine.createSpy("playRequestSpy")
-
         renderForm({play: playRequestSpy})
 
-        let input
-        input = document.querySelector("[name='p1Throw']")
-        input.value = "foo"
-        ReactTestUtils.Simulate.change(input)
-
-        input = document.querySelector("[name='p2Throw']")
-        input.value = "bar"
-        ReactTestUtils.Simulate.change(input)
+        fillIn("p1Throw", "foo")
+        fillIn("p2Throw", "bar")
 
         submitForm()
+
         expect(playRequestSpy).toHaveBeenCalledWith("foo", "bar", jasmine.any(Object))
     })
 
