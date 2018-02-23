@@ -29,19 +29,15 @@ class PlayForm extends React.Component {
         this.setState({outcome: "P2 Won!"})
     }
     
-    p1ThrowChangeHandler(e){
-        this.setState({p1Throw: e.target.value})
-    }
-    
-    p2ThrowChangeHandler(e){
-        this.setState({p2Throw: e.target.value})
+    inputChangeHandler(e){
+        this.setState({[e.target.name]: e.target.value})
     }
 
     render(){
         return <div>
             {this.state.outcome}
-            <input name="p1Throw" onChange={this.p1ThrowChangeHandler.bind(this)}/>
-            <input name="p2Throw" onChange={this.p2ThrowChangeHandler.bind(this)}/>
+            <input name="p1Throw" onChange={this.inputChangeHandler.bind(this)}/>
+            <input name="p2Throw" onChange={this.inputChangeHandler.bind(this)}/>
             <button onClick={this.submitForm.bind(this)}>PLAY</button>
         </div>
     }
